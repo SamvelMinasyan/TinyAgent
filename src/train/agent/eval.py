@@ -41,18 +41,8 @@ def evaluate():
         target_text = msgs[-1]["content"]
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
 
-        """ 
-        Calculating the length of the target_response tokens for dynamic max_new_tokens setting, 
-        initially I was using the max length of the target in the database,
-        but then understood that setting it dynamically will drastically improve the speed of evaluation(from 7-8 hours to just 2 hours)
-        
-        + 10 in the end is the length of the '<END_OF_PLAN>' in tokens (8) and + 2 as a buffer just in case
-        """
-
-        target_tokens_length = len(tokenizer(target_text, add_special_tokens=False)['input_ids']) + 10
-
         with torch.no_grad():
-            outputs = model.generate(**inputs, max_new_tokens=264)
+            outputs = model.generate(**inputs, max_new_tokens=264) # longest response in the dataset + 8 for <END_OF_PLAN> + 2 for buffer just in case
 
         response = tokenizer.decode(outputs[0], skip_special_tokens=True)[len(prompt):].split("<END_OF_PLAN>")[0]
 

@@ -20,7 +20,7 @@ Added `preprocess_dataset` function in `utils/data_utils.py` for simple dataset 
 Looking at the base model [Doctor-Shotgun/TinyLlama-1.1B-32k-Instruct](https://huggingface.co/Doctor-Shotgun/TinyLlama-1.1B-32k-Instruct) that TinyAgent was fine-tuned on, I kept the same format of prompt.
 
 Authors have most probably used batch size of 8 looking at the [config.json](https://huggingface.co/squeeze-ai-lab/TinyAgent-1.1B/blob/main/config.json) file in their huggingface model page. Used adamw_8bit for optimizer for memory saving and 4-bit NF4 quantization.
-I created 1K validation set from the 40K train set and trained the model for 3 epochs with the learning rate 7e-5 on L4 GPU(with 24GB memory) for about 33 hours, the final success rate on the separate 1K test set is 78.4% compared to their 78.89%.
+I created 1K validation set from the 40K train set and trained the model for 3 epochs with the learning rate 7e-5 on L4 GPU(with 24GB memory) for about 33 hours, the final success rate on the separate 1K test set is 82.1% compared to their 78.89%.
 I faced some GPU memory related problems during the training, batch size greater than 1 was running out of memory(because seq_length is quite big) even with the quantization settings applied, so I had to use gradient_accumulation. I think authors were using at least one A100 GPU with 40GB memory. 
 
 
