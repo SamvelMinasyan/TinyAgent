@@ -52,7 +52,7 @@ def evaluate():
         target_tokens_length = len(tokenizer(target_text, add_special_tokens=False)['input_ids']) + 10
 
         with torch.no_grad():
-            outputs = model.generate(**inputs, max_new_tokens=264)
+            outputs = model.generate(**inputs, max_new_tokens=target_tokens_length) # 264 max length (+ buffer) in the test dataset
 
         response = tokenizer.decode(outputs[0], skip_special_tokens=True)[len(prompt):].split("<END_OF_PLAN>")[0]
 
