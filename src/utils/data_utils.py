@@ -4,6 +4,7 @@ import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Literal
+import ast
 
 from src.llm_compiler.constants import JOINNER_FINISH, JOINNER_REPLAN
 
@@ -173,3 +174,14 @@ def initialize_data_objects(json_path: str) -> dict[str, Data]:
 
         data_objects = deserialize_data(data_objects)
     return data_objects
+
+
+def preprocess_dataset(input_path: str, output_path: str) -> None:
+    data = initialize_data_objects(input_path)
+    with open(output_path, "w") as f:
+        for i, j in data.items():
+            for step in j.serialize()['output']:
+                if step['type'] == "plan":
+                    parsed_doc = ast.literal_eval(step["raw_input"])
+                    parsed_doc.append({"role": "assistant", "content": step["raw_output"]})
+                    f.write(json.dumps({"data": parsed_doc}) + "\n")

@@ -1,0 +1,23 @@
+out_dir: "model"
+lr: 7e-5
+bf16: True
+epochs: 3
+batch:
+  train: 1
+  eval: 1
+lora:
+  rank: 16
+  alpha: 32 # rank * 2 in this case
+  dropout: 0.1
+max_seq_length: 4608 # max length of the prompt in the dataset rounded up to the nearest multiple of 64 for CUDA
+eval_steps: 1000
+save_steps: 1000
+save_strategy: "steps"
+eval_strategy: "steps"
+grad_acum_steps: 8
+log_steps: 500
+logging_strategy: "steps"
+model_id: "Doctor-Shotgun/TinyLlama-1.1B-32k-Instruct"
+train_data_json: "../../../data/training_data_preprocessed.jsonl"
+test_data_json: "../../../data/test_data_preprocessed.jsonl"
+warmup_steps: 500

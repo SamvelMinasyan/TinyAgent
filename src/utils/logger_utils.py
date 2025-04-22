@@ -10,7 +10,7 @@ from src.tiny_agent.models import TINY_AGENT_DIR
 # Global variable to toggle logging
 LOG_ENABLED = True
 LOG_TO_FILE = False
-LOG_FILE_PATH = os.path.join(TINY_AGENT_DIR, "log.txt")
+LOG_FILE_PATH = os.path.join("figs", "log.txt")
 
 # Create the log file if it doesn't exist
 if not os.path.exists(LOG_FILE_PATH):
